@@ -22,7 +22,7 @@ function spawnPost() {
 
 //1.2 define a function to spawn user elements
 function spawnUser() {
-    const postsHTML = loadData2().users.map( user => `
+    const postsHTML = loadData().users.map( user => `
         <div class="user">
             <p>${user.username}</p>
             <div class="details">
@@ -39,8 +39,21 @@ function spawnUser() {
 
 //1.3 each user element should be a div that shows user info
 //... and has a button that says Add Friend (doesn't work)
-function loadData2() {
-    return{
+
+
+function loadData() {
+    return {
+        posts: [
+            {
+                text: "I got a new dog last night! It's so cute!",
+                user: "kimmy23",
+                datetime: new Date(),
+                numLikes: 3,
+                comments: [
+
+                ]
+            }
+        ], 
         users: [
             {
                 username: "kimmy23",
@@ -69,23 +82,6 @@ function loadData2() {
                 lastName: "Kirkland",
                 gender: "F",
                 age: 17
-            }
-        ]
-    }
-}
-
-
-function loadData() {
-    return {
-        posts: [
-            {
-                text: "I got a new dog last night! It's so cute!",
-                user: "kimmy23",
-                datetime: new Date(),
-                numLikes: 3,
-                comments: [
-
-                ]
             }
         ]
         
