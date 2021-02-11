@@ -1,10 +1,30 @@
 const $postContainer = document.getElementById("Posts")
 //1.1 js reference to the section element with id users
 const $userContainer = document.getElementById("Users")
+document.getElementById("login")
+    .onsubmit = login
 spawnPosts()
 //1.4 call function to spawn user elements
 spawnUser()
 
+
+function login(e) {
+    e.preventDefault()
+    const payload = {
+        body: JSON.stringify({
+            username: document.getElementById("username").nodeValue,
+            password: document.getElementById("password").value
+        }),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    fetch("/login", payload)
+        .then(res => res.json())
+        .then(res => console.log(res.body))
+        .catch(error => console.error(error))
+}
 
 function spawnPost() {
     const postsHTML = loadData().posts.map( post => `
