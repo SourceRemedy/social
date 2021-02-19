@@ -1,18 +1,38 @@
-const $postContainer = document.getElementById("Posts")
+//2. User can create new post, send to server
+const $postContainer = document.getElementById("posts")
 //1.1 js reference to the section element with id users
-const $userContainer = document.getElementById("Users")
+const $userContainer = document.getElementById("users")
 document.getElementById("login")
     .onsubmit = login
+//2.1 Set createPost function as onsubmit handler for the create post form 
+document.getElementById("createPost")
+    .onsubmit = createPost
 spawnPosts()
 //1.4 call function to spawn user elements
-spawnUser()
-
+spawnUsers()
+function createPost(e) {
+    e.preventDefault()
+    const payload = {
+        body: JSON.stringify({
+            text: document.getElementById("newPost").value
+        }),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    fetch("/login", payload)
+        .then(res => res.json())
+        .then(res => console.log(res.body))
+        .catch(error => console.error(error))
+}
+//2.2 Define function createPost to send post to server
 
 function login(e) {
     e.preventDefault()
     const payload = {
         body: JSON.stringify({
-            username: document.getElementById("username").nodeValue,
+            username: document.getElementById("username").value,
             password: document.getElementById("password").value
         }),
         method: "POST",
@@ -26,7 +46,7 @@ function login(e) {
         .catch(error => console.error(error))
 }
 
-function spawnPost() {
+function spawnPosts() {
     const postsHTML = loadData().posts.map( post => `
         <div class="post">
             <p>${post.text}</p>
@@ -41,25 +61,24 @@ function spawnPost() {
 }
 
 //1.2 define a function to spawn user elements
-function spawnUser() {
-    const postsHTML = loadData().users.map( user => `
-        <div class="user">
-            <p>${user.username}</p>
-            <div class="details">
-                <div>${user.firstName}</div>
-                <div>${user.lastName}</div>
-                <div>${user.gender}</div>
-                <div>${user.age}</div>
-                <button type="button">Add Friend</button>
+function spawnUsers() {
+        const postsHTML = loadData().users.map( user => `
+            <div class="user">
+                <p>${user.username}</p>
+                <div class="details">
+                    <div>${user.firstName}</div>
+                    <div>${user.lastName}</div>
+                    <div>${user.gender}</div>
+                    <div>${user.age}</div>
+                    <button type="button">Add Friend</button>
+                </div>
             </div>
-        </div>
-    ` ).join("")
-    $userContainer.innerHTML = usersHTML
+        ` ).join("")
+        $userContainer.innerHTML = usersHTML
 }
 
 //1.3 each user element should be a div that shows user info
 //... and has a button that says Add Friend (doesn't work)
-
 
 function loadData() {
     return {
@@ -69,11 +88,30 @@ function loadData() {
                 user: "kimmy23",
                 datetime: new Date(),
                 numLikes: 3,
-                comments: [
-
-                ]
+                comments: []
+            },
+            {
+                text: "I got a new dog last night! It's so cute!",
+                user: "kimmy23",
+                datetime: new Date(),
+                numLikes: 3,
+                comments: []
+            },
+            {
+                text: "I got a new dog last night! It's so cute!",
+                user: "kimmy23",
+                datetime: new Date(),
+                numLikes: 3,
+                comments: []
+            },
+            {
+                text: "I got a new dog last night! It's so cute!",
+                user: "kimmy23",
+                datetime: new Date(),
+                numLikes: 3,
+                comments: []
             }
-        ], 
+        ],
         users: [
             {
                 username: "kimmy23",
@@ -104,6 +142,5 @@ function loadData() {
                 age: 17
             }
         ]
-        
     }
 }
